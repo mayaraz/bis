@@ -69,20 +69,17 @@ def main():
 	user_choice_function = {
 		TRANSLATE: translate,
 		NEW_WORD: new_word,
-		DELETE_WORD: delete_word,
-		QUIT: lambda: print('goodbye...')
+		DELETE_WORD: delete_word
 	}
 
-	while True:
+	user_input = None
+	while user_input != QUIT:
+		if user_input in user_choice_function:
+			user_choice_function[user_input](dictionary)
+
 		user_input = input('What to do? (1. translate / 2. enter a new word / 3. delete a word / 4. quit)\n').strip()
-		if user_input not in user_choice_function:
-			continue
 
-		if user_input == QUIT:
-			user_choice_function[QUIT]()
-			break
-
-		user_choice_function[user_input](dictionary)
+	print('goodbye...')
 
 
 if __name__ == '__main__':
