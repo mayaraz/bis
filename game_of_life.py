@@ -8,19 +8,19 @@ class Game:
 	def __init__(self, board):
 		self.board = board
 
-	def _set_cell_state(self, i: int, j: int) -> None:
+	def _get_cell_state(self, i: int, j: int) -> str:
 		"""
-		Gets indexes of cell in the board and sets it's new life state according the game rules
+		Gets indexes of cell in the board and return it's new life state according the game rules
 		:param i: row index
 		:param j: column index
-		:return: None
+		:return: cell new life state
 		"""
 		neighbors = self._get_neighbors(i, j)
 		live_cells_amount = neighbors.count(self.LIVE)
 		if self.board[i][j] == self.LIVE:
-			self.board[i][j] = self.LIVE if 2 <= live_cells_amount <= 3 else self.DEAD
+			return self.LIVE if 2 <= live_cells_amount <= 3 else self.DEAD
 		else:
-			self.board[i][j] = self.LIVE if live_cells_amount == 3 else self.DEAD
+			return self.LIVE if live_cells_amount == 3 else self.DEAD
 
 	def _get_neighbors(self, i: int, j: int) -> List[str]:
 		"""
@@ -48,9 +48,13 @@ class Game:
 		Sets new life state of all cells in board
 		:return: None
 		"""
+		new_board = []
 		for i in range(len(self.board)):
+			row = []
 			for j in range(len(self.board[0])):
-				self._set_cell_state(i, j)
+				row.append(self._get_cell_state(i, j))
+			new_board.append(row)
+		self.board = new_board
 
 	def print_board(self) -> None:
 		"""
